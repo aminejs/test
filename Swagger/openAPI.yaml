@@ -1,0 +1,91 @@
+openapi: 3.0.1
+info:
+  title: Mister-Auto test
+  description: 'API for Mister-Auto test
+    <h2>Status Codes</h2><ul> 
+      <li><b>200-299:</b> Indicates a successfull response</li> 
+      <li><b>400-599:</b> Indicates an error</li></ul>'
+  version: 1.0.0
+paths:
+  /api/maxLetterOccurrences:
+    get:
+      tags:
+      - Occurrence
+      summary: Get letter occurrence object
+      description: Get max letter occurrence in a string given
+      operationId: getInputsMaxLetterOccurrences
+      parameters:
+        - name: input
+          in: query
+          description: input given to calculate the max letter occurrences in it
+          required: true
+          schema:
+            type: string
+            nullable: false
+            example: aaabcbbbccaaaaaaaabbdd
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+              examples:
+                  maxOccurrence:
+                    value: {'a': 8}
+        '400':
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+        '500':
+          description: An error occured
+  /api/maxLetterOccurrences/all:
+    get:
+      tags:
+      - All occurrences
+      summary: Get all letter occurrences
+      description: Get all inputs along with their results in a chunked array of five elements
+      operationId: getAllMaxLetterOccurrences
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/input'
+        '400':
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+        '500':
+          description: An error occured
+components:
+  schemas:
+    ApiResponse:
+      type: object
+      properties:
+        message:
+          type: string
+    input:
+      required:
+        - input
+        - result
+      type: object
+      properties:
+        input:
+          type: string
+          description: input containing small and capital letters
+          format: string
+          example: aaabcbbbccaaaaaaaabbdd
+        result:
+          type: object
+          description: max letter occurrence in the input
+          example: {'a': 8}
