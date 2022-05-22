@@ -1,0 +1,17 @@
+fos_rest:
+  body_converter:
+    enabled: true
+  view:
+    view_response_listener: true
+    formats: { json: true, xml: false, rss: false }
+    mime_types:
+      json: ['application/json']
+  routing_loader: false
+  format_listener:
+    rules:
+      - { path: '^/', priorities: ['json'], fallback_format: 'json' }
+  serializer:
+    serialize_null: true
+
+  body_listener:
+    enabled: true

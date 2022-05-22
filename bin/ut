@@ -1,0 +1,4 @@
+#! /bin/sh
+
+bin/phpunit --filter Unit
+bin/phpunit --filter Integration
