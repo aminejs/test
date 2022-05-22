@@ -432,4 +432,31 @@ class MaxConsecutiveLetterOccurrencesRestControllerTest extends WebTestCase
         $this->assertArrayHasKey($key, $response);
         $this->assertSame($occurrence, $response[$key]);
     }
+
+    /**
+     * @test
+     */
+    public function test_getAllMaxLetterOccurrences_will_return_array_chunked_into_three_arrays()
+    {
+
+        //when
+        list($status, $response) = $this->getJsonResponse(Request::METHOD_GET, TestConstants::API_URI . '/maxLetterOccurrences/all');
+
+        //then
+        $this->assertEquals(Response::HTTP_OK, $status);
+        $this->assertIsArray($response);
+        $this->assertCount(3, $response);
+        $this->assertCount(5, $response[0]);
+        $this->assertCount(5, $response[1]);
+        $this->assertCount(2, $response[2]);
+
+        foreach ($response as $chunk)
+        {
+            foreach ($chunk as $chunkElement)
+            {
+                $this->assertArrayHasKey(Constants::INPUT, $chunkElement);
+                $this->assertArrayHasKey(Constants::RESULT, $chunkElement);
+            }
+        }
+    }
 }

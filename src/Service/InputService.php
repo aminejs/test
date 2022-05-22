@@ -4,9 +4,17 @@ namespace App\Service;
 
 use App\DTO\Request\InputRequest;
 use App\Service\Interfaces\InputInterface;
+use App\Utils\Helper\Entity\InputResultHelper;
 
 class InputService implements InputInterface
 {
+    use InputResultHelper;
+
+    /**
+     * @var int
+     */
+    const CHUNK_SIZE = 5;
+
     /**
      * @param InputRequest $inputRequest
      * @return array
@@ -45,5 +53,10 @@ class InputService implements InputInterface
         }
 
         return $occurrences;
+    }
+
+    public function getAllMaxLetterOccurrences(): array
+    {
+        return array_chunk($this->buildInputResultArray(), self::CHUNK_SIZE);
     }
 }

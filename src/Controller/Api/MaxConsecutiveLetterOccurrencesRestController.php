@@ -41,14 +41,23 @@ class MaxConsecutiveLetterOccurrencesRestController extends AbstractFOSRestContr
      */
     public function getInputsMaxLetterOccurrences(InputRequest $inputRequest) : View
     {
-
         return $this->handleExceptions(function () use ($inputRequest){
             $this->validator->validate($inputRequest);
             $this->validator->throwIfInvalid();
 
-            $this->inputService->getMaxLetterOccurrences($inputRequest);
             return $this->view($this->inputService->getMaxLetterOccurrences($inputRequest));
         });
+    }
 
+    /**
+     * @Rest\View(statusCode=200)
+     * @Rest\Get(path="/maxLetterOccurrences/all", name="_all")
+     * @return View
+     */
+    public function getAllMaxLetterOccurrences() : View
+    {
+        return $this->handleExceptions(function () {
+            return $this->view($this->inputService->getAllMaxLetterOccurrences());
+        });
     }
 }
